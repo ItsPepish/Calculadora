@@ -1,28 +1,6 @@
 <?php
-    if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $numero1 = (float)$_POST['Num1']    ;
-        $numero2 = (float) $_POST['Num2'];
-        $operacion = $_POST['Operacion'];
-
-        switch($operacion) {
-            case 'Suma':
-                $resultado = $numero1 + $numero2;
-                break;
-            case 'Resta':
-                $resultado = $numero1 - $numero2;
-                break;
-            case 'Multiplicacion':
-                $resultado = $numero1 * $numero2;
-                break;
-            case 'Division':
-                if($numero2 == 0) {
-                    $resultado = 'No se puede dividir entre cero';
-                } else {
-                    $resultado = $numero1 / $numero2;
-                }
-                break;
-        }
-    }
+    $numeros = [9,8,7,6,5,4,3,2,1,0];
+    $operadores = ["+", "-", "*", "/"];
 ?>
 
 <!DOCTYPE html>
@@ -31,26 +9,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="index.js"></script>
     <title>Calculadora</title>
 </head>
 <body>
-    <h1>Calculadora básica</h1>
-    <form action="" method="POST">
-        <h2>Selecciona la operación a realizar</h2>
-        <select name="Operacion">
-            <option value="Suma">Suma</option>
-            <option value="Resta">Resta</option>
-            <option value="Multiplicacion">Multiplicación</option>
-            <option value="Division">División</option>
-        </select>
-        <input type="number" name="Num1" required>
-        <input type="number" name="Num2" required>
-        <button type="submit">Calcular</button>
-    </form>
-    <?php
-
-    if(isset($resultado) && $resultado !== null): ?>
-    <p>Resultado: <?= $resultado ?> </p>
-    <?php endif; ?>
+    <div class="w-100 bg-gray-500 p-5 flex flex-col gap-5">
+        <input type="text" id="display" readonly class="h-20 bg-black text-white px-5 text-4xl">
+        <div class="flex gap-5">
+            <div class="grid grid-cols-3 gap-5">
+                <?php for($i = 0; $i < count($numeros); $i++): ?>
+                <button type="button" id="number" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer"><?php echo $numeros[$i] ?></button>
+                <?php endfor; ?>
+                <button type="button" id="equals" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer">=</button>
+                <button type="button" id="delete" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer">C</button>
+            </div>
+            <div class="flex flex-col gap-5">
+                <?php for($i = 0; $i < count($operadores); $i++): ?>
+                <button type="button" id="operator" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer"><?php echo $operadores[$i] ?></button>
+                <?php endfor; ?>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
