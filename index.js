@@ -35,13 +35,11 @@ function calculadora() {
     })
 
     parenthesisButton.addEventListener('click', function() {
-        if(!textOperation.includes('(')) {
+        if(!textOperation.includes(')')) {
             textOperation += '(';
             display.value = textOperation;
-        } else {
-            textOperation += ')';
-            display.value = textOperation;
         }
+        
     })
 
     equalsButton.addEventListener('click', function() {
@@ -62,7 +60,6 @@ function calculadora() {
                 chars.push('*');
                 currentNumber = '';
             }
-            
             if(currentNumber !== '') {
                 chars.push(currentNumber);
                 currentNumber = '';
