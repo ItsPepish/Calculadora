@@ -33,6 +33,12 @@ function calculadora() {
 
     operatorButton.forEach(button => {
         button.addEventListener('click', function() {
+            const selectedOperator = button.textContent;
+            if(selectedOperator === '-' && currentValue === '') {
+                currentValue = '-';
+                display.value = currentValue;
+                return;
+            }
             if(currentValue) {
                 previousValue = currentValue;
                 currentValue = '';

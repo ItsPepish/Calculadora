@@ -1,6 +1,6 @@
 <?php
     $numeros = [9,8,7,6,5,4,3,2,1,0];
-    $operadores = ["+", "-", "*", "/"];
+    $operadores = ["/", "*", "-", "+"];
 ?>
 
 <!DOCTYPE html>
@@ -12,10 +12,10 @@
     <script src="index.js"></script>
     <title>Calculadora</title>
 </head>
-<body>
-    <div class="w-fit bg-gray-500 p-5 flex gap-5">
+<body class="flex h-screen justify-center items-center">
+    <div class="w-fit bg-gray-500 p-5 flex gap-5 rounded-xl">
         <div class="flex flex-col gap-5">
-            <input type="text" id="display" readonly class="w-fit h-20 bg-black text-white text-4xl px-5">
+            <input type="text" id="display" readonly class="w-fit h-20 bg-black text-white text-4xl px-5 rounded-xl">
             <div class="flex gap-5 justify-center">
                 <div class="grid grid-cols-3 gap-5 ">
                     <?php foreach($numeros as $numero): ?>
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="bg-black/50 w-50 text-white p-5 text-2xl">
+        <div class="flex flex-col gap-2 bg-black/50 w-50 text-white p-5 text-2xl rounded-xl text-relaxed">
             <ul id="history"></ul>
         </div>
     </div>
