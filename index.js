@@ -13,8 +13,10 @@ function calculadora() {
     let result = '';
     const numberButton = document.querySelectorAll('.number');
     const operatorButton = document.querySelectorAll('.operator');
+    const pointButton = document.querySelector('#point');
     const equalsButton = document.querySelector('#equals');
     const deleteButton = document.querySelector('#delete');
+    const cleanButton = document.querySelector('#clean');
     const display = document.querySelector('#display');
     const historyList = document.querySelector('#history');
 
@@ -75,9 +77,9 @@ function calculadora() {
                 break;
         }
 
-        display.value = result;
+        display.value = Number(result).toFixed(2);
         const newLi = document.createElement('LI');
-        const operationText = previousValue + operator + currentValue + "=" + result;
+        const operationText = previousValue + operator + currentValue + "=" + Number(result).toFixed(2);
         newLi.textContent = operationText;
         historyList.prepend(newLi);
         currentValue = result;
@@ -85,7 +87,25 @@ function calculadora() {
         operator = null;
     })
 
+    pointButton.addEventListener('click', function() {
+        if(!currentValue.includes('.')) {
+            currentValue += '.';
+            display.value = currentValue;
+        }
+        if(previousValue) {
+            display.value = previousValue + operator + currentValue;
+        }
+
+    })
+    
     deleteButton.addEventListener('click', function() {
+        if((currentValue) || (previousValue && operator)) {
+            currentValue = currentValue.slice(0, -1);
+            display.value = display.value.slice(0, -1);
+        }
+    });
+
+    cleanButton.addEventListener('click', function() {
         currentValue = '';
         previousValue = '';
         operator = '';
