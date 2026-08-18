@@ -51,15 +51,21 @@ function calculadora() {
     function evaluateExpression(textOperation) {
         const chars = [];
         let currentNumber = '';
+        let previousIndex = '';
 
         for(const char of textOperation) {
+            //Agrupar numeros y decimales
             if(!isNaN(char) || char === '.') {
                 currentNumber += char;
                 continue;
             }
             if(currentNumber !== '') {
                 chars.push(currentNumber);
+                previousIndex = currentNumber;
                 currentNumber = '';
+            }
+            if(char === '(' && previousIndex !== '+' && previousIndex !== '-' && previousIndex !== '*' && previousIndex !== '/' && previousIndex !== '%') {
+                chars.push('*');
             }
             chars.push(char);
         }
@@ -156,8 +162,11 @@ function calculadora() {
 
     function calculateOperation(textOperation) {
         const eval = evaluateExpression(textOperation);
+        console.log(eval);
         const reordered = reorderExpression(eval);
+        console.log(reordered);
         const result = resultExpression(reordered);
+        console.log(result);
         display.value = result;
         const newLi = document.createElement('LI');
         const operationText = textOperation + "=" + result;
