@@ -16,6 +16,7 @@ function calculadora() {
     const equalsButton = document.querySelector('#equals');
     const deleteButton = document.querySelector('#delete');
     const display = document.querySelector('#display');
+    const historyList = document.querySelector('#history');
 
     numberButton.forEach(button => {
         button.addEventListener('click', function() {
@@ -69,6 +70,10 @@ function calculadora() {
         }
 
         display.value = result;
+        const newLi = document.createElement('LI');
+        const operationText = previousValue + operator + currentValue + "=" + result;
+        newLi.textContent = operationText;
+        historyList.prepend(newLi);
         currentValue = result;
         previousValue = '';
         operator = null;

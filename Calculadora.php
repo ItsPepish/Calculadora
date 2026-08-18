@@ -13,21 +13,26 @@
     <title>Calculadora</title>
 </head>
 <body>
-    <div class="w-100 bg-gray-500 p-5 flex flex-col gap-5">
-        <input type="text" id="display" readonly class="h-20 bg-black text-white px-5 text-4xl">
-        <div class="flex gap-5">
-            <div class="grid grid-cols-3 gap-5">
-                <?php foreach($numeros as $numero): ?>
-                <button type="button" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer number"><?php echo $numero ?></button>
-                <?php endforeach; ?>
-                <button type="button" id="equals" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer">=</button>
-                <button type="button" id="delete" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer">C</button>
+    <div class="w-fit bg-gray-500 p-5 flex gap-5">
+        <div class="flex flex-col gap-5">
+            <input type="text" id="display" readonly class="w-fit h-20 bg-black text-white text-4xl px-5">
+            <div class="flex gap-5 justify-center">
+                <div class="grid grid-cols-3 gap-5 ">
+                    <?php foreach($numeros as $numero): ?>
+                    <button type="button" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer number"><?php echo $numero ?></button>
+                    <?php endforeach; ?>
+                    <button type="button" id="equals" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer">=</button>
+                    <button type="button" id="delete" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer">C</button>
+                </div>
+                <div class="flex flex-col gap-5">
+                    <?php foreach($operadores as $operador): ?>
+                    <button type="button" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer operator"><?php echo $operador ?></button>
+                    <?php endforeach; ?>
+                </div>
             </div>
-            <div class="flex flex-col gap-5">
-                <?php foreach($operadores as $operador): ?>
-                <button type="button" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer operator"><?php echo $operador ?></button>
-                <?php endforeach; ?>
-            </div>
+        </div>
+        <div class="bg-black/50 w-50 text-white p-5 text-2xl">
+            <ul id="history"></ul>
         </div>
     </div>
 </body>
