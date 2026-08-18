@@ -16,6 +16,16 @@ function calculadora() {
     const display = document.querySelector('#display');
     const historyList = document.querySelector('#history');
 
+    display.addEventListener('input', function() {
+        textOperation = display.value;
+    })
+
+    display.addEventListener('keydown', function(event) {
+        if(event.key === 'Enter') {
+            calculateOperation(textOperation);
+        }
+    })
+
     inputsButtons.forEach(button => {
         button.addEventListener('click', function() {
             textOperation = display.value;
@@ -35,14 +45,7 @@ function calculadora() {
     })
 
     equalsButton.addEventListener('click', function() {
-        const eval = evaluateExpression(textOperation);
-        const reordered = reorderExpression(eval);
-        const result = resultExpression(reordered);
-        display.value = result;
-        const newLi = document.createElement('LI');
-        const operationText = textOperation + "=" + result;
-        newLi.textContent = operationText;
-        historyList.prepend(newLi);
+        calculateOperation(textOperation);
     })
 
     function evaluateExpression(textOperation) {
@@ -149,6 +152,17 @@ function calculadora() {
             stack.push(result);
         }
         return stack.pop();
+    }
+
+    function calculateOperation(textOperation) {
+        const eval = evaluateExpression(textOperation);
+        const reordered = reorderExpression(eval);
+        const result = resultExpression(reordered);
+        display.value = result;
+        const newLi = document.createElement('LI');
+        const operationText = textOperation + "=" + result;
+        newLi.textContent = operationText;
+        historyList.prepend(newLi);
     }
 
     cleanButton.addEventListener('click', function() {

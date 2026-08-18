@@ -15,7 +15,7 @@
 <body class="flex h-screen justify-center items-center">
     <div class="w-fit bg-gray-500 p-5 flex gap-5 rounded-xl">
         <div class="flex flex-col gap-5">
-            <input type="text" id="display" readonly class="w-fit h-20 bg-black text-white text-4xl px-5 rounded-xl">
+            <input type="text" id="display" class="w-fit h-20 bg-black text-white text-4xl px-5 rounded-xl">
             <div class="flex gap-5 justify-center">
                 <div class="grid grid-cols-3 gap-5 ">
                     <?php foreach($numeros as $numero): ?>
