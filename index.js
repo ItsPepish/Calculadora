@@ -51,21 +51,21 @@ function calculadora() {
     function evaluateExpression(textOperation) {
         const chars = [];
         let currentNumber = '';
-        let previousIndex = '';
 
         for(const char of textOperation) {
-            //Agrupar numeros y decimales
             if(!isNaN(char) || char === '.') {
                 currentNumber += char;
                 continue;
             }
-            if(currentNumber !== '') {
+            if(char === '(' && currentNumber !== '') {
                 chars.push(currentNumber);
-                previousIndex = currentNumber;
+                chars.push('*');
                 currentNumber = '';
             }
-            if(char === '(' && previousIndex !== '+' && previousIndex !== '-' && previousIndex !== '*' && previousIndex !== '/' && previousIndex !== '%') {
-                chars.push('*');
+            
+            if(currentNumber !== '') {
+                chars.push(currentNumber);
+                currentNumber = '';
             }
             chars.push(char);
         }
