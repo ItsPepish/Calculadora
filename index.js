@@ -37,7 +37,7 @@ function calculadora() {
     equalsButton.addEventListener('click', function() {
         const eval = evaluateExpression(textOperation);
         const reordered = reorderExpression(eval);
-        const result = Number(resultExpression(reordered)).toFixed(2);
+        const result = resultExpression(reordered);
         display.value = result;
         const newLi = document.createElement('LI');
         const operationText = textOperation + "=" + result;
@@ -157,7 +157,6 @@ function calculadora() {
     })
 
     deleteButton.addEventListener('click', function() {
-        textOperation = textOperation.slice(0, -1);
-        display.value = textOperation;
+        display.value = display.value.slice(0, -1);
     });
 }
