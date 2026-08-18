@@ -7,109 +7,242 @@ function iniciarApp() {
 }
 
 function calculadora() {
-    let currentValue = '';
-    let previousValue = '';
-    let operator = null;
-    let result = '';
-    const numberButton = document.querySelectorAll('.number');
-    const operatorButton = document.querySelectorAll('.operator');
-    const pointButton = document.querySelector('#point');
-    const equalsButton = document.querySelector('#equals');
-    const deleteButton = document.querySelector('#delete');
+    let textOperation = '';
+    const inputsButtons = document.querySelectorAll('.input-button');
+    const parenthesisButton = document.querySelector('#parenthesis');
     const cleanButton = document.querySelector('#clean');
+    const deleteButton = document.querySelector('#delete');
+    const equalsButton = document.querySelector('#equals');
     const display = document.querySelector('#display');
     const historyList = document.querySelector('#history');
 
-    numberButton.forEach(button => {
+    inputsButtons.forEach(button => {
         button.addEventListener('click', function() {
-            currentValue += button.textContent;
-            display.value = currentValue;
-            if(previousValue) {
-                display.value = '';
-                display.value += previousValue;
-                display.value += operator;
-                display.value += currentValue;
-            }
-        })   
-    });
-
-    operatorButton.forEach(button => {
-        button.addEventListener('click', function() {
-            const selectedOperator = button.textContent;
-            if(selectedOperator === '-' && currentValue === '') {
-                currentValue = '-';
-                display.value = currentValue;
-                return;
-            }
-            if(currentValue) {
-                previousValue = currentValue;
-                currentValue = '';
-                operator = button.textContent;
-                display.value += operator;
-            }
+            textOperation = display.value;
+            textOperation += button.textContent;
+            display.value = textOperation;
         })
-    });
+    })
+
+    parenthesisButton.addEventListener('click', function() {
+        if(!textOperation.includes('(')) {
+            textOperation += '(';
+            display.value = textOperation;
+        } else {
+            textOperation += ')';
+            display.value = textOperation;
+        }
+    })
 
     equalsButton.addEventListener('click', function() {
-        if (!previousValue || !currentValue || !operator) {
-            return;
-        }
-
-        const num1 = Number(previousValue);
-        const num2 = Number(currentValue);
-
-        switch(operator) {
-            case '+':
-                result = num1 + num2;
-                break;
-            case '-':
-                result = num1 - num2;
-                break;
-            case '*':
-                result = num1 * num2;
-                break;
-            case '/':
-                if(num2 === 0) {
-                    result = 'No se puede dividir';
-                    break;
-                }
-                result = num1 / num2;
-                break;
-        }
-
-        display.value = Number(result).toFixed(2);
+        const eval = evaluateExpression(textOperation);
+        const reordered = reorderExpression(eval);
+        const result = resultExpression(reordered);
+        display.value = result;
         const newLi = document.createElement('LI');
-        const operationText = previousValue + operator + currentValue + "=" + Number(result).toFixed(2);
+        const operationText = textOperation + "=" + result;
         newLi.textContent = operationText;
         historyList.prepend(newLi);
-        currentValue = result;
-        previousValue = '';
-        operator = null;
     })
 
-    pointButton.addEventListener('click', function() {
-        if(!currentValue.includes('.')) {
-            currentValue += '.';
-            display.value = currentValue;
-        }
-        if(previousValue) {
-            display.value = previousValue + operator + currentValue;
-        }
+    function evaluateExpression(textOperation) {
+        const chars = [];
+        let currentNumber = '';
 
-    })
-    
-    deleteButton.addEventListener('click', function() {
-        if((currentValue) || (previousValue && operator)) {
-            currentValue = currentValue.slice(0, -1);
-            display.value = display.value.slice(0, -1);
+        for(const char of textOperation) {
+            if(!isNaN(char) || char === '.') {
+                currentNumber += char;
+                continue;
+            }
+            if(currentNumber !== '') {
+                chars.push(currentNumber);
+                currentNumber = '';
+            }
+            chars.push(char);
         }
-    });
+        if(currentNumber !== '') {
+            chars.push(currentNumber);
+        }
+        return chars;
+    }
+
+    function precedence(operator) {
+        switch(operator) {
+            case '+':
+            case '-':
+                return 1;
+            case '*':
+            case '/':
+                return 2;
+            default:
+                return 0;
+        }
+    }
+
+    function reorderExpression(chars) {
+        const output = [];
+        const operators = [];
+
+        for(const char of chars) {
+            if(!isNaN(char)) {
+                output.push(char);
+                continue;
+            }
+            if(char === '(') {
+                operators.push(char);
+                continue;
+            }
+            if(char === ')') {
+                while(operators.length > 0 && operators[operators.length - 1] !== '(') {
+                    output.push(operators.pop());
+                }
+                operators.pop();
+                continue;
+            }
+            while(operators.length > 0 && operators[operators.length - 1] !== '(' && precedence(operators[operators.length - 1]) >= precedence(char)) {
+                output.push(operators.pop());
+            }
+            operators.push(char);
+        }
+        while(operators.length > 0) {
+            output.push(operators.pop());
+        }
+        return output;
+    }
+
+    function resultExpression(chars) {
+        const stack = [];
+
+        for(const char of chars) {
+            if(!isNaN(char)) {
+                stack.push(Number(char));
+                continue;
+            }
+
+            const a = stack.pop();
+            const b = stack.pop();
+
+            let result;
+
+            switch(char) {
+                case '+':
+                    result = b + a;
+                    break;
+                case '-':
+                    result = b - a;
+                    break;
+                case '*':
+                    result = b * a;
+                    break;
+                case '/':
+                    if(b === 0) {
+                        result = 'No se puede dividir';
+                        break;
+                    }
+                    result = b / a;
+                    break;
+            }
+            stack.push(result);
+        }
+        return stack.pop();
+    }
 
     cleanButton.addEventListener('click', function() {
-        currentValue = '';
-        previousValue = '';
-        operator = '';
-        result = '';
+        textOperation = '';
         display.value = '';
     })
+
+    deleteButton.addEventListener('click', function() {
+        textOperation = textOperation.slice(0, -1);
+        display.value = textOperation;
+    });
+
+    // numberButton.forEach(button => {
+    //     button.addEventListener('click', function() {
+    //         currentValue += button.textContent;
+    //         display.value = currentValue;
+    //         if(previousValue) {
+    //             display.value = '';
+    //             display.value += previousValue;
+    //             display.value += operator;
+    //             display.value += currentValue;
+    //         }
+    //     })   
+    // });
+
+    // operatorButton.forEach(button => {
+    //     button.addEventListener('click', function() {
+    //         const selectedOperator = button.textContent;
+    //         if(selectedOperator === '-' && currentValue === '') {
+    //             currentValue = '-';
+    //             display.value = currentValue;
+    //             return;
+    //         }
+    //         if(currentValue) {
+    //             previousValue = currentValue;
+    //             currentValue = '';
+    //             operator = button.textContent;
+    //             display.value += operator;
+    //         }
+    //     })
+    // });
+
+    // equalsButton.addEventListener('click', function() {
+    //     if (!previousValue || !currentValue || !operator) {
+    //         return;
+    //     }
+
+    //     const num1 = Number(previousValue);
+    //     const num2 = Number(currentValue);
+
+    //     switch(operator) {
+    //         case '+':
+    //             result = num1 + num2;
+    //             break;
+    //         case '-':
+    //             result = num1 - num2;
+    //             break;
+    //         case '*':
+    //             result = num1 * num2;
+    //             break;
+    //         case '/':
+    //             if(num2 === 0) {
+    //                 result = 'No se puede dividir';
+    //                 break;
+    //             }
+    //             result = num1 / num2;
+    //             break;
+    //     }
+
+    //     display.value = Number(result).toFixed(2);
+    //     const newLi = document.createElement('LI');
+    //     const operationText = previousValue + operator + currentValue + "=" + Number(result).toFixed(2);
+    //     newLi.textContent = operationText;
+    //     historyList.prepend(newLi);
+    //     currentValue = result;
+    //     previousValue = '';
+    //     operator = null;
+    // })
+
+    // pointButton.addEventListener('click', function() {
+    //     if(!currentValue.includes('.')) {
+    //         currentValue += '.';
+    //         display.value = currentValue;
+    //     }
+    //     if(previousValue) {
+    //         display.value = previousValue + operator + currentValue;
+    //     }
+
+    // })
+
+    // parenthesisButton.addEventListener('click', function() {
+    //     if(currentValue.includes('(') && !currentValue.includes(')')) {
+    //         currentValue += ')';
+    //         display.value = currentValue;
+    //     }
+    //     if(!currentValue.includes('(')) {
+    //         currentValue += '(';
+    //         display.value = currentValue;
+    //     }
+    // })
 }
