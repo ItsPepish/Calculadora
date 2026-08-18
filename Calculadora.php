@@ -17,16 +17,16 @@
         <input type="text" id="display" readonly class="h-20 bg-black text-white px-5 text-4xl">
         <div class="flex gap-5">
             <div class="grid grid-cols-3 gap-5">
-                <?php for($i = 0; $i < count($numeros); $i++): ?>
-                <button type="button" id="number" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer"><?php echo $numeros[$i] ?></button>
-                <?php endfor; ?>
+                <?php foreach($numeros as $numero): ?>
+                <button type="button" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer number"><?php echo $numero ?></button>
+                <?php endforeach; ?>
                 <button type="button" id="equals" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer">=</button>
                 <button type="button" id="delete" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer">C</button>
             </div>
             <div class="flex flex-col gap-5">
-                <?php for($i = 0; $i < count($operadores); $i++): ?>
-                <button type="button" id="operator" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer"><?php echo $operadores[$i] ?></button>
-                <?php endfor; ?>
+                <?php foreach($operadores as $operador): ?>
+                <button type="button" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer operator"><?php echo $operador ?></button>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
