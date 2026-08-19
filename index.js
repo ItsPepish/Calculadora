@@ -1,11 +1,14 @@
+// Esperar a que HTML y DOM se cargue por completo
 document.addEventListener('DOMContentLoaded', function() {
     iniciarApp();
 })
 
+// Función que ejecuta las funciones una vez cargada la página
 function iniciarApp() {
     calculadora();
 }
 
+// Función principal de la calculadora
 function calculadora() {
     let textOperation = '';
     const inputsButtons = document.querySelectorAll('.input-button');
@@ -16,12 +19,15 @@ function calculadora() {
     const display = document.querySelector('#display');
     const historyList = document.querySelector('#history');
 
+    // Agregar evento de teclado, en cualquier boton, para agregar numeros y operadores a la pantalla
     display.addEventListener('input', function() {
         textOperation = display.value;
     })
 
+    // Agregar evento de tecla Enter, para mandar a llamar a la función que calcula la operación mostrada en la pantalla
     display.addEventListener('keydown', function(event) {
         if(event.key === 'Enter') {
+            // En caso de que la pantalla está vacia, no se ejecuta nada
             if(textOperation === '') {
                 display.value = '';
                 return;
@@ -30,7 +36,9 @@ function calculadora() {
         }
     })
 
+    // Agregar evento de click de Igual ("="), para mandar a llamar a la función que calcula la operación mostrada en la pantalla
     equalsButton.addEventListener('click', function() {
+        // En caso de que la pantalla está vacia, no se ejecuta nada
         if(textOperation === '') {
             display.value = '';
             return;
@@ -38,6 +46,7 @@ function calculadora() {
         calculateOperation();
     })
 
+    // Agregar evento de botones de calculadora, para agregar numeros y operadores a la pantalla
     inputsButtons.forEach(button => {
         button.addEventListener('click', function() {
             textOperation = display.value;
@@ -46,10 +55,13 @@ function calculadora() {
         })
     })
 
+    // Agregar evento del boton de Parentesis ("()"), para agregarlo a la pantalla
     parenthesisButton.addEventListener('click', function() {
+        // Se inicializa variables para guardar cuantos parentesis lleva abiertos y cerrados
         let parenthesisOpen = 0;
         let parenthesisClosed = 0;
 
+        // Para en cada caracter de la operación mostrada en la pantalla, se cuenta los parentesis abiertos y cerrados
         for (const char of textOperation) {
             if(char === '(') {
                 parenthesisOpen++;
@@ -59,20 +71,25 @@ function calculadora() {
             }
         }
 
+        // Esto con la finalidad de guardar el caracter pasado en la operacion, para realizar condiciones relacionados con parentesis
         const lastChar = textOperation[textOperation.length - 1];
 
+        // Si en la pantalla no hay nada ni hay caracter pasado, se agrega "("
         if(!lastChar) {
             textOperation += '(';
-        } else if (lastChar === '+' || lastChar === '-' || lastChar === '*' || lastChar === '/' || lastChar === '%') {
+        } else if (lastChar === '+' || lastChar === '-' || lastChar === '*' || lastChar === '/' || lastChar === '%') { // Si el caracter pasado fue una operacion, agregar "("
             textOperation += '(';
-        } else if (parenthesisOpen > parenthesisClosed) {
+        } else if (parenthesisOpen > parenthesisClosed) { // Si hay mas parentesis abiertos que cerrados, se agrega ")"
             textOperation += ')';
-        } else {
+        } else { // Caso contrario, se agrega "("
             textOperation += '(';
         }
+
+        // Agregar el parentesis correspondiente a la pantalla
         display.value = textOperation;
     })
 
+    // Funcion que tokeniza la operacion, es decir, separar los numeros entre operaciones y guardarlo en un arreglo
     function evaluateExpression(textOperation) {
         const chars = [];
         const operators = ['+', '-', '*', '/', '%'];
