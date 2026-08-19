@@ -207,6 +207,7 @@ function calculadora() {
         const newLi = document.createElement('LI');
         const operationText = textOperation + " = " + result;
         newLi.textContent = operationText;
+        newLi.classList.add('bg-gray-800', 'rounded-2xl', 'px-4', 'py-2')
         historyList.prepend(newLi);
         textOperation = String(result);
     }
