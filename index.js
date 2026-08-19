@@ -72,10 +72,15 @@ function calculadora() {
         for(let i = 0; i < textOperation.length; i++) {
             const char = textOperation[i];
             const previousChar = textOperation[i - 1];
+            const doublePreviousChar = textOperation[i - 2];
 
             if(!isNaN(char) || char === '.') {
                 if(previousChar === ')') {
                     chars.push('*');
+                }
+                if (previousChar === '-' && (doublePreviousChar === undefined || doublePreviousChar === '(')) {
+                    chars.pop(previousChar);
+                    currentNumber += '-';
                 }
                 currentNumber += char;
                 continue;
