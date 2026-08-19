@@ -68,13 +68,15 @@ function calculadora() {
     function evaluateExpression(textOperation) {
         const chars = [];
         let currentNumber = '';
-        let previousChar = '';
 
         for(let i = 0; i < textOperation.length; i++) {
             const char = textOperation[i];
-            previousChar = textOperation[i - 1];
+            const previousChar = textOperation[i - 1];
 
             if(!isNaN(char) || char === '.') {
+                if(previousChar === ')') {
+                    chars.push('*');
+                }
                 currentNumber += char;
                 continue;
             }
@@ -86,18 +88,12 @@ function calculadora() {
             if(char === '(' && previousChar === ')') {
                 chars.push('*');
             }
-
             if(currentNumber !== '') {
                 chars.push(currentNumber);
                 currentNumber = '';
             }
             chars.push(char);
         }
-        if(currentNumber !== '' && previousChar === ')') {
-                chars.push('*');
-                chars.push(currentNumber);
-                currentNumber = '';
-            }
         if(currentNumber !== '') {
             chars.push(currentNumber);
         }
