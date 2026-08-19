@@ -22,8 +22,20 @@ function calculadora() {
 
     display.addEventListener('keydown', function(event) {
         if(event.key === 'Enter') {
+            if(textOperation === '') {
+                display.value = '';
+                return;
+            }
             calculateOperation();
         }
+    })
+
+    equalsButton.addEventListener('click', function() {
+        if(textOperation === '') {
+            display.value = '';
+            return;
+        }
+        calculateOperation();
     })
 
     inputsButtons.forEach(button => {
@@ -61,12 +73,9 @@ function calculadora() {
         display.value = textOperation;
     })
 
-    equalsButton.addEventListener('click', function() {
-        calculateOperation();
-    })
-
     function evaluateExpression(textOperation) {
         const chars = [];
+        const operators = ['+', '-', '*', '/', '%'];
         let currentNumber = '';
 
         for(let i = 0; i < textOperation.length; i++) {
@@ -192,7 +201,6 @@ function calculadora() {
 
     function calculateOperation() {
         const eval = evaluateExpression(textOperation);
-        console.log(eval);
         const reordered = reorderExpression(eval);
         const result = resultExpression(reordered);
         display.value = result;

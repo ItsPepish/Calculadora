@@ -19,18 +19,18 @@
             <div class="flex gap-5 justify-center">
                 <div class="grid grid-cols-3 gap-5 ">
                     <?php foreach($numeros as $numero): ?>
-                    <button type="button" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer input-button"><?php echo $numero ?></button>
+                    <button type="button" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-bold text-4xl cursor-pointer input-button"><?php echo $numero ?></button>
                     <?php endforeach; ?>
-                    <button type="button" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer input-button">.</button>
-                    <button type="button" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer input-button">0</button>
-                    <button type="button" id="parenthesis" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer">()</button>
-                    <button type="button" id="clean" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer">C</button>
-                    <button type="button" id="delete" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer"><-</button>
-                    <button type="button" id="equals" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer">=</button>
+                    <button type="button" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-bold text-4xl cursor-pointer input-button">.</button>
+                    <button type="button" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-bold text-4xl cursor-pointer input-button">0</button>
+                    <button type="button" id="parenthesis" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-bold text-4xl cursor-pointer">()</button>
+                    <button type="button" id="clean" class="size-20 rounded-full bg-black hover:bg-black/50 text-red-600 font-bold text-4xl cursor-pointer">C</button>
+                    <button type="button" id="delete" class="size-20 rounded-full bg-black hover:bg-black/50 text-red-600 font-bold text-4xl cursor-pointer"><-</button>
+                    <button type="button" id="equals" class="size-20 rounded-full bg-sky-400/50 hover:bg-sky-400/40 text-sky-200 font-bold text-4xl cursor-pointer">=</button>
                 </div>
                 <div class="flex flex-col gap-5">
                     <?php foreach($operadores as $operador): ?>
-                    <button type="button" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-semibold text-4xl cursor-pointer input-button"><?php echo $operador ?></button>
+                    <button type="button" class="size-20 rounded-full bg-black hover:bg-black/50 text-sky-200 font-bold text-4xl cursor-pointer input-button"><?php echo $operador ?></button>
                     <?php endforeach; ?>
                 </div>
             </div>
